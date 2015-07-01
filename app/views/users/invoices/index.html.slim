@@ -1,0 +1,28 @@
+section.content
+  .row
+    .col-xs-12
+      .box
+        .box-header
+          .box-title
+        .box-body
+          .table-responsive
+            table#invoice-list-table.table.no-margin.table-hover
+              thead
+                tr
+                  th 
+                    | Invoice Number
+                  th
+                    = t 'client'
+                  th 
+                    = t 'amount'
+                  th
+              tbody
+                - @invoices.each do |i|
+                  tr id=users_invoice_path(i)
+                    td= i.number
+                    td= i.client.name
+                    td= number_to_currency i.total
+                    td
+                      - unless i.status == :unpaid
+                        span.label class=(i.status == :overdue ? 'label-danger' : 'label-success')
+                          = i.status.to_s.camelize
