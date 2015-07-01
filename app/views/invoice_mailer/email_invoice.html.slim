@@ -34,11 +34,9 @@
               br
               |  #{@invoice.account.address_line_2}
               br
-              i.fa.fa-phone
-              |  - #{@invoice.account.phone}
+              | Phone: #{@invoice.account.phone}
               br
-              i.fa.fa-envelope-o
-              |  - #{@invoice.account.email}
+              | Email: #{@invoice.account.email}
           .col-sm-4.invoice-col
             |  To 
             address
@@ -49,11 +47,9 @@
               br
               |  #{@invoice.client.address_line_2}
               br
-              i.fa.fa-phone
-              |  - #{@invoice.client.phone}
+              | Phone: #{@invoice.client.phone}
               br
-              i.fa.fa-envelope-o
-              |  - #{@invoice.client.email}
+              | Email: #{@invoice.client.email}
           .col-sm-4.invoice-col
             b
               | Invoice ##{@invoice.number}
