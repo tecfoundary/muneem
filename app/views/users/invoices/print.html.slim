@@ -50,73 +50,7 @@
         / b
         /   | Account:
         / |  968-34567 
-    .row
-      .col-xs-12.table-responsive
-        table.table.table-striped
-          thead
-            tr
-              th
-                | Shift
-              th
-                | Type
-              th
-                | Quantity
-              th
-                | Cost
-              th
-                | Subtotal
-              th
-                | Paid
-          tbody
-            - @invoice.items.each do |item|
-              tr
-                td
-                  | #{item.description}
-                td
-                  | #{item.product}
-                td
-                  | #{item.quantity}
-                td
-                  | #{number_to_currency item.cost}
-                td
-                  | #{number_to_currency item.total}
-                td
-                  - if item.paid?
-                    | Yes
-                  - else
-                    | No 
-    .row
-      .col-xs-6
-        p.lead
-          | Payment Methods:
-        = image_tag 'visa.png', alt: 'Visa'
-        '   
-        = image_tag 'mastercard.png', alt: 'Mastercard'
-        '   
-        = image_tag 'american-express.png', alt: 'American Express'
-        '   
-        = image_tag 'paypal2.png', alt: 'Paypal'
-        p.text-muted.well.well-sm.no-shadow[style="margin-top: 10px;"]
-          |  Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra. 
-      .col-xs-6
-        p.lead
-          | Amount Due #{@invoice.due_at.strftime("%d/%m/%Y")}
-        .table-responsive
-          table.table
-            tr
-              th[style="width:50%"]
-                | Subtotal:
-              td
-                | #{number_to_currency @invoice.sub_total}
-            tr
-              th
-                | GST (10%)
-              td
-                | #{number_to_currency @invoice.tax}
-            tr
-              th
-                | Total:
-              td
-                | #{number_to_currency @invoice.total}
+    = render partial: 'items', locals: {invoice: @invoice}
+
 javascript:
   window.print();
