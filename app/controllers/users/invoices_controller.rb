@@ -40,13 +40,14 @@ class Users::InvoicesController < Users::BaseController
     respond_to do |format|
       format.html { 
         notify_now :error, ::I18n.t('messages.resource.not_valid',
-          :type     => Client.model_name.human,
-          :errors   => @client.errors.full_messages.to_sentence
+          :type     => Invoice.model_name.human,
+          :errors   => @invoice.errors.full_messages.to_sentence
         )
-        render action: :new, id: @client, :status => 422 
+        # redirect_to action: :new, id: @invoice, client_id: invoice_params.slice(:client_id)[:client_id], :status => 422 
+        redirect_to action: :show, controller: :clients, id: invoice_params.slice(:client_id)[:client_id], :status => 422 
       }
       format.json {
-        render json: {:error => @client.errors.full_messages.to_sentence}, status: 422
+        render json: {:error => @invoice.errors.full_messages.to_sentence}, status: 422
       }
     end
 
@@ -73,7 +74,7 @@ class Users::InvoicesController < Users::BaseController
 
 
   def invoice_params
-    params.require(:invoice).permit(:client_id, :due_at, :tax_rate, :shipping, items_attributes: [:product, :reference, :description, :quantity, :cost, :paid])
+    params.require(:invoice).permit(:client_id, :due_at, :tax_rate, :shipping, items_attributes: [:product, :reference, :description, :quantity, :cost, :discount])
   end
 
 end

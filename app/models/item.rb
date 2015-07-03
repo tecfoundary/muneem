@@ -13,11 +13,24 @@ class Item
   field :product,     type: String
   field :reference,   type: String
   field :description, type: String
-  field :quantity,    type: Float
-  field :cost,        type: Float
-  field :paid,        type: Boolean, default: false
+  field :quantity,    type: Float, default: 0
+  field :cost,        type: Float, default: 0.0
+  field :discount,    type: Integer, default: 0
+
+  #
+  # Validations
+  #
+  validates_presence_of :product, :description, :quantity, :cost
+  validates_numericality_of :discount,
+    greater_than_or_equal_to: 0,
+    less_than_or_equal_to: 100,
+    only_integer: true
 
   def total
-    self.paid ? 0 : self.quantity*self.cost
+    (self.quantity*self.cost)*(1-(self.discount/100))
+  end
+
+  def paid?
+    total == 0
   end
 end

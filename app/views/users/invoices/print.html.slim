@@ -81,8 +81,10 @@
                 td
                   | #{number_to_currency item.total}
                 td
-                  - if item.paid
-                    i.fa.fa-check
+                  - if item.paid?
+                    | Yes
+                  - else
+                    | No 
     .row
       .col-xs-6
         p.lead

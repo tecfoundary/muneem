@@ -26,7 +26,21 @@ class Invoice
   field :payment_at,      type: DateTime
   field :payment_ref,     type: String
 
+  #
+  # Validations
+  #
+
+  validates_presence_of :due_at, :tax_rate
+
+  #
+  # Scope
+  #
+  
   default_scope -> { desc(:created_at) }
+
+  #
+  # Public
+  #
 
   def to_s
     "##{number.to_s}"
@@ -63,6 +77,10 @@ class Invoice
   def item_references
     self.items.map(&:reference)
   end
+
+  #
+  # Private
+  #
 
   private
 
