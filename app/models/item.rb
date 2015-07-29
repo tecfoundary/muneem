@@ -1,25 +1,18 @@
-class Item
-  include Mongoid::Document
+class Item < ActiveRecord::Base
 
-  #
   # Relation
-  #
-  embedded_in :invoice
+  belongs_to :account
+  belongs_to :invoice
 
-  #
   # Fields
-  #
+  # field :product,     type: String
+  # field :reference,   type: String
+  # field :description, type: String
+  # field :quantity,    type: Float, default: 0
+  # field :cost,        type: Float, default: 0.0
+  # field :discount,    type: Integer, default: 0
 
-  field :product,     type: String
-  field :reference,   type: String
-  field :description, type: String
-  field :quantity,    type: Float, default: 0
-  field :cost,        type: Float, default: 0.0
-  field :discount,    type: Integer, default: 0
-
-  #
   # Validations
-  #
   validates_presence_of :product, :description, :quantity, :cost
   validates_numericality_of :discount,
     greater_than_or_equal_to: 0,

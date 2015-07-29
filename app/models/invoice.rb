@@ -1,47 +1,32 @@
-class Invoice
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Invoice < ActiveRecord::Base
 
-  #
   # Relations
-  #
   belongs_to :account
   belongs_to :client
   # has_one :order
-  embeds_many :items
+  has_many :items
 
   accepts_nested_attributes_for :items
 
-  #
   # Callbacks
-  #
   before_create :increment_invoice_number
 
 
-  field :invoice_number,  type: Integer
-  field :due_at,          type: DateTime
-  field :tax_rate,        type: Float, default: 0.1
-  field :shipping,        type: Float
+  # field :invoice_number,  type: Integer
+  # field :due_at,          type: DateTime
+  # field :tax_rate,        type: Float, default: 0.1
+  # field :shipping,        type: Float
 
-  field :payment_at,      type: DateTime
-  field :payment_ref,     type: String
+  # field :payment_at,      type: DateTime
+  # field :payment_ref,     type: String
 
-  #
   # Validations
-  #
+  validates :invoice_number, :due_at, :tax_rate, presence: true
 
-  validates_presence_of :due_at, :tax_rate
-
-  #
   # Scope
-  #
-  
-  default_scope -> { desc(:created_at) }
+  default_scope -> { order(created_at: :desc) }
 
-  #
   # Public
-  #
-
   def to_s
     "##{number.to_s}"
   end
@@ -78,10 +63,7 @@ class Invoice
     self.items.map(&:reference)
   end
 
-  #
   # Private
-  #
-
   private
 
   def increment_invoice_number
