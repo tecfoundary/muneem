@@ -22,36 +22,34 @@ class Users::InvoicesController < Users::BaseController
   def create
     @invoice = Invoice.new invoice_params.except(:shift_ids)
     @invoice.account = current_account
-    @invoice.save!
 
     respond_to do |format|
-      format.html { 
-        notify :notice, ::I18n.t('messages.resource.created',
-          :type       => Invoice.model_name.human,
-          :resource   => @invoice
-        )
-        render action: :show, id: @invoice 
-      }
-      format.json {
-        render json: @invoice
-      }
+      if @invoice.save!
+        format.html { 
+          notify :notice, ::I18n.t('messages.resource.created',
+            :type       => Invoice.model_name.human,
+            :resource   => @invoice
+          )
+          render action: :show, id: @invoice 
+        }
+        format.json {
+          render json: @invoice
+        }
+      else
+        format.html { 
+          notify_now :error, ::I18n.t('messages.resource.not_valid',
+            :type     => Invoice.model_name.human,
+            :errors   => @invoice.errors.full_messages.to_sentence
+          )
+          redirect_to action: :show, controller: :clients, id: invoice_params.slice(:client_id)[:client_id], :status => 422 
+        }
+        format.json {
+          render json: {:error => @invoice.errors.full_messages.to_sentence}, status: 422
+        }
+      end
     end
-  rescue Mongoid::Errors::Validations => e
-    respond_to do |format|
-      format.html { 
-        notify_now :error, ::I18n.t('messages.resource.not_valid',
-          :type     => Invoice.model_name.human,
-          :errors   => @invoice.errors.full_messages.to_sentence
-        )
-        # redirect_to action: :new, id: @invoice, client_id: invoice_params.slice(:client_id)[:client_id], :status => 422 
-        redirect_to action: :show, controller: :clients, id: invoice_params.slice(:client_id)[:client_id], :status => 422 
-      }
-      format.json {
-        render json: {:error => @invoice.errors.full_messages.to_sentence}, status: 422
-      }
-    end
-
   end  
+
   def new
   end
 
