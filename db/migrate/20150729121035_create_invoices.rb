@@ -2,9 +2,8 @@ class CreateInvoices < ActiveRecord::Migration
   def change
     create_table :invoices do |t|
 
-      t.integer   :invoice_number,   null: false
       t.date      :due_at,           null: false
-      t.float     :tax_rate,         null: false
+      t.float     :tax_rate,         null: false, default: 0.1
       t.float     :shipping
       t.date      :payment_at
       t.string    :payment_reference
