@@ -1,4 +1,4 @@
-- client = Client.by_account(current_account).where(params[:client_id]).first
+- client = Client.by_account(current_account).find(params[:client_id])
 
 section.invoice
   = form_for @invoice, url: users_invoices_path, role: 'form' do |f|
