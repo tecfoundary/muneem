@@ -1,3 +1,5 @@
+- client = Client.by_account(current_account).where(params[:client_id]).first
+
 section.invoice
   = form_for @invoice, url: users_invoices_path, role: 'form' do |f|
     .row
@@ -23,7 +25,6 @@ section.invoice
           |  Email: #{current_account.email}
       .col-sm-4.invoice-col
         |  To 
-        - client = Client.find(params[:client_id])
         = f.hidden_field :client_id, value: params[:client_id]
         address
           strong
@@ -52,7 +53,7 @@ section.invoice
         / b
         /   | Account:
         / |  968-34567 
-    = render partial: 'form', locals: {f: f}
+    = render partial: 'form', locals: {f: f, client: client}
 
     
     .row.no-print
