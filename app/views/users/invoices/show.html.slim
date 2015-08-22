@@ -2,7 +2,10 @@ section.invoice
   .row
     .col-xs-12
       h2.page-header
-        i.fa.fa-globe
+        - if current_account.logo.nil?
+          i.fa.fa-globe
+        - else
+          = image_tag current_account.logo, alt: 'logo', size: '25x25'
         |  #{@invoice.account.name}
         small.pull-right
           | Date: #{@invoice.created_at.strftime("%d/%m/%Y")}
