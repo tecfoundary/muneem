@@ -20,6 +20,7 @@
           .col-xs-12
             h2.page-header
               = image_tag @invoice.account.logo, alt: 'logo', size: '25x25' unless @invoice.account.logo.nil?
+              |  #{@invoice.account.name}
               small.pull-right
                 | Date: #{@invoice.created_at.strftime("%d/%m/%Y")}
         .row.invoice-info
