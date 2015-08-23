@@ -3,7 +3,6 @@ class Invoice < ActiveRecord::Base
   # Relations
   belongs_to :account
   belongs_to :client
-  # has_one :order
   has_many :items
 
   accepts_nested_attributes_for :items
@@ -13,10 +12,11 @@ class Invoice < ActiveRecord::Base
 
   # Scope
   default_scope -> { order(created_at: :desc) }
+  scope :by_account, ->(account){ where(account: account) } 
 
   # Public
   def to_s
-    "##{number.to_s}"
+    "Invoice ##{number.to_s}"
   end
 
   def status

@@ -60,7 +60,7 @@ class Users::InvoicesController < Users::BaseController
   end
 
   def email
-    InvoiceMailer.email_invoice(@invoice, current_user).deliver_later!
+    InvoiceMailer.email_invoice(@invoice, current_user, current_account).deliver_later!
     notify :notice, ::I18n.t('messages.resource.emailed',
       :type       => @invoice.client.email,
       :resource   => @invoice
