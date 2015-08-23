@@ -1,7 +1,7 @@
 class InvoiceMailer < ApplicationMailer
   layout 'invoice'
 
-  def email_invoice(invoice, user, account_id)
+  def email_invoice(invoice, user)
     @invoice = invoice
     @client = @invoice.client
     @user = user
