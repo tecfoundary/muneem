@@ -25,6 +25,9 @@ section.invoice
         br
         i.fa.fa-envelope-o
         |  - #{@invoice.account.email}
+        br
+        i.fa.fa-briefcase
+        |  - #{current_account.business_number}
     .col-sm-4.invoice-col
       |  To 
       address
@@ -43,21 +46,12 @@ section.invoice
     .col-sm-4.invoice-col
       b
         | Invoice ##{@invoice.number}
-      / br
-      / br
-      / b
-      /   | Order ID:
-      / |  #{@invoice.id.to_s.last(8)}
       br
       b
         | Payment Due: 
       | #{@invoice.due_at.strftime("%d/%m/%Y")}
       br
-      / b
-      /   | Account:
-      / |  968-34567 
   = render partial: 'items', locals: {invoice: @invoice}
-
   
   .row.no-print
     .col-xs-12
@@ -67,7 +61,5 @@ section.invoice
       = link_to email_users_invoice_path(@invoice), class: 'btn btn-success pull-right', style: 'margin-right: 5px;' do 
         i.fa.fa-share
         |  Email Invoice
-      / = link_to email_users_invoice_path(@invoice), class: 'btn btn-primary pull-right', style: 'margin-right: 5px;' do
-      /   i.fa.fa-download
-      /   |  Generate PDF
+
 .clearfix

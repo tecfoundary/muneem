@@ -1,5 +1,4 @@
 - client = Client.by_account(current_account).find(params[:client_id])
-
 section.invoice
   = form_for @invoice, url: users_invoices_path, role: 'form' do |f|
     .row
@@ -23,9 +22,14 @@ section.invoice
           br
           |  #{current_account.address_line_2}
           br
-          |  Phone: #{current_account.phone}
+          i.fa.fa-phone
+          |  - #{current_account.phone}
           br
-          |  Email: #{current_account.email}
+          i.fa.fa-envelope-o
+          |  - #{current_account.email}
+          br
+          i.fa.fa-briefcase
+          |  - #{current_account.business_number}
       .col-sm-4.invoice-col
         |  To 
         = f.hidden_field :client_id, value: params[:client_id]
@@ -37,38 +41,22 @@ section.invoice
           br
           |  #{client.address_line_2}
           br
-          |  Phone: #{client.phone}
+          i.fa.fa-phone
+          |  - #{client.phone}
           br
-          |  Email: #{client.email}
+          i.fa.fa-envelope-o
+          |  - #{client.email}
       .col-sm-4.invoice-col
-        / b
-        /   | Invoice #007612
-        / br
-        / br
-        / b
-        /   | Order ID:
-        / |  4F3S8J
-        / br
-        / b
         | Payment Due:
         = f.text_field :due_at, value: Date.today, class: 'form-control'
         br
-        / b
-        /   | Account:
-        / |  968-34567 
     = render partial: 'form', locals: {f: f, client: client}
 
     
     .row.no-print
       .col-xs-12
         = link_to 'Cancel', users_client_path(params[:client_id]), class: 'btn btn-default'
-        / a.btn.btn-default[href="invoice-print.html" target="_blank"]
-        /   i.fa.fa-print
-        /   |  Print
         button.btn.btn-success.pull-right type="submit"
           i.fa.fa-credit-card
           |  Create
-        / button.btn.btn-primary.pull-right[style="margin-right: 5px;"]
-        /   i.fa.fa-download
-        /   |  Generate PDF
 .clearfix
