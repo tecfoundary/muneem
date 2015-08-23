@@ -5,7 +5,7 @@ class InvoiceMailer < ApplicationMailer
     @invoice = invoice
     @client = @invoice.client
     @user = user
-    mail(from: ENV['DEFAULT_FROM_ADDRESS'], reply_to: @user.email, to: @client.email, subject: "Invoice #{@invoice} from #{@invoice.account.name} for #{@client.carer}" )
+    mail(reply_to: @user.email, to: @client.email, subject: "Invoice #{@invoice} from #{@invoice.account.name} for #{@client.carer}" )
   end
 
 end
