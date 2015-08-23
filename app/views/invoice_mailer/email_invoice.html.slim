@@ -19,8 +19,7 @@
         .row
           .col-xs-12
             h2.page-header
-              i.fa.fa-globe
-              |  #{@invoice.account.name}
+              = image_tag @invoice.account.logo, alt: 'logo', size: '25x25' unless @invoice.account.logo.nil?
               small.pull-right
                 | Date: #{@invoice.created_at.strftime("%d/%m/%Y")}
         .row.invoice-info
