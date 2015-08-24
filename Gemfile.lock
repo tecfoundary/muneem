@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    muneem (0.0.13)
+    muneem (0.1.0)
       rails (~> 4.2.2)
 
 GEM
