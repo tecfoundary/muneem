@@ -50,15 +50,6 @@ class Users::InvoicesController < Users::BaseController
     end
   end  
 
-  def new
-  end
-
-  def show
-  end
-
-  def print
-  end
-
   def email
     InvoiceMailer.email_invoice(@invoice, current_user).deliver_later!
     notify :notice, ::I18n.t('messages.resource.emailed',
@@ -68,11 +59,47 @@ class Users::InvoicesController < Users::BaseController
     redirect_to action: :show, id: @invoice 
   end
 
+  def print
+  end
+
+  def update
+    @invoice.update_attributes invoice_params
+    @invoice.save!
+
+    respond_to do |format|
+      format.html { 
+        notify :notice, ::I18n.t('messages.resource.updated',
+          :type       => Invoice.model_name.human,
+          :resource   => @invoice
+        )
+        render action: :show, id: @invoice 
+      }
+      format.json {
+        render json: @invoice
+      }
+    end
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::RecordNotSaved => e
+    respond_to do |format|
+      format.html { 
+        notify_now :error, ::I18n.t('messages.resource.not_valid',
+          :type     => Invoice.model_name.human,
+          :errors   => @invoice.errors.full_messages.to_sentence
+        )
+        redirect_to action: :show, :status => 422 
+      }
+      format.json {
+        render json: {:error => @invoice.errors.full_messages.to_sentence}, status: 422
+      }
+    end
+  end  
+
   private
 
 
   def invoice_params
-    params.require(:invoice).permit(:client_id, :due_at, :tax_rate, :shipping, :order_id, items_attributes: [:product, :reference, :description, :quantity, :cost, :discount])
+    params.require(:invoice).permit(:client_id, :due_at, :tax_rate, :shipping, :order_id, 
+      items_attributes: [:product, :reference, :description, :quantity, :cost, :discount],
+      payments_attributes: [:amount, :reference, :at, :account_id])
   end
 
 end

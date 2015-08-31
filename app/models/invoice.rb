@@ -4,8 +4,10 @@ class Invoice < ActiveRecord::Base
   belongs_to :account
   belongs_to :client
   has_many :items
+  has_many :payments
 
   accepts_nested_attributes_for :items
+  accepts_nested_attributes_for :payments
 
   # Validations
   validates :due_at, presence: true
@@ -20,7 +22,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def status
-    if payment_at.nil?
+    if payments.sum(:amount) < total
       if due_at < Date.today
         return :overdue
       else

@@ -15,7 +15,4 @@ class Item < ActiveRecord::Base
     (self.quantity*self.cost)*(1-(self.discount/100))
   end
 
-  def paid?
-    total == 0
-  end
 end

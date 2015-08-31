@@ -55,11 +55,27 @@ section.invoice
   
   .row.no-print
     .col-xs-12
-      = link_to print_users_invoice_path(@invoice), class: 'btn btn-default', target: '_blank' do
+      = link_to print_users_invoice_path(@invoice), class: 'btn btn-default pull-right', target: '_blank' do
         i.fa.fa-print
         |  Print
-      = link_to email_users_invoice_path(@invoice), class: 'btn btn-success pull-right', style: 'margin-right: 5px;' do 
+      = link_to email_users_invoice_path(@invoice), class: 'btn btn-default pull-right', style: 'margin-right: 5px;' do 
         i.fa.fa-share
-        |  Email Invoice
+        |  Email
+  br
+  .row
+    .col-xs-12
+      h2.page-header
+        | Add Payment
+      .form-inline
+        = form_for @invoice, url: users_invoice_path(@invoice), role: 'form' do |f|
+          = f.fields_for :payments, Payment.new do |p| 
+            = p.hidden_field :account_id, value: current_account.id
+            .form-group
+              = p.number_field :amount, placeholder: 'Amount', class: 'form-control'
+            .form-group
+              = p.text_field :reference, placeholder: 'Payment Reference', class: 'form-control'
+            .form-group
+              = p.date_field :at, value: Date.today, class: 'form-control'
+          button.btn.btn-primary type="submit" Submit
 
 .clearfix
