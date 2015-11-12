@@ -33,6 +33,10 @@ class Invoice < ActiveRecord::Base
     end
   end
 
+  def is?(status)
+    status == self.status
+  end
+
   def sub_total
     items.map(&:total).sum
   end

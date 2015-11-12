@@ -1,0 +1,17 @@
+br
+.row
+  .col-xs-12
+    h2.page-header
+      | Add Payment
+    .form-inline
+      = form_for @invoice, url: users_invoice_path(@invoice), role: 'form' do |f|
+        = f.fields_for :payments, Payment.new do |p| 
+          = p.hidden_field :account_id, value: current_account.id
+          .form-group
+            = p.number_field :amount, placeholder: 'Amount', class: 'form-control'
+          .form-group
+            = p.text_field :reference, placeholder: 'Payment Reference', class: 'form-control'
+          .form-group
+            = p.date_field :at, value: Date.today, class: 'form-control'
+        '  
+        button.btn.btn-primary.btn-flat type="submit" Submit
