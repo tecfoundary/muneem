@@ -98,7 +98,7 @@ class Users::InvoicesController < Users::BaseController
 
   def invoice_params
     params.require(:invoice).permit(:client_id, :due_at, :tax_rate, :shipping, :order_id, 
-      items_attributes: [:product, :reference, :description, :quantity, :cost, :discount],
+      items_attributes: [:product, :reference, :description, :quantity, :cost, :discount, :account_id],
       payments_attributes: [:amount, :reference, :at, :account_id])
   end
 
