@@ -5,7 +5,7 @@ section.invoice
         - if @invoice.account.logo.nil?
           i.fa.fa-globe
         - else
-          = image_tag @invoice.account.logo, alt: 'logo', size: '25x25'
+          = image_tag @invoice.account.logo, alt: 'logo', size: '50x50'
         |  #{@invoice.account.name}
         small.pull-right
           | Date: #{@invoice.created_at.strftime("%d/%m/%Y")}
@@ -46,12 +46,12 @@ section.invoice
     .col-sm-4.invoice-col
       b
         | Invoice ##{@invoice.number}
+      span.pull-right.label class=(@invoice.is?(:paid)? 'label-success' : (@invoice.is?(:overdue) ? 'label-danger' : 'label-warning'))
+        = @invoice.status.to_s.upcase
       br
       b
         | Payment Due: 
       | #{@invoice.due_at.strftime("%d/%m/%Y")}  
-      span.label class=(@invoice.is?(:paid)? 'label-success' : (@invoice.is?(:overdue) ? 'label-danger' : 'label-warning'))
-        = @invoice.status.to_s.camelize
         
   = render partial: 'items', locals: {invoice: @invoice}
   

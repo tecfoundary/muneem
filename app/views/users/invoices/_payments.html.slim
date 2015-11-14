@@ -8,10 +8,10 @@ br
         = f.fields_for :payments, Payment.new do |p| 
           = p.hidden_field :account_id, value: current_account.id
           .form-group
-            = p.number_field :amount, placeholder: 'Amount', class: 'form-control'
+            = p.number_field :amount, required: true, placeholder: 'Amount', class: 'form-control', step: :any
           .form-group
-            = p.text_field :reference, placeholder: 'Payment Reference', class: 'form-control'
+            = p.text_field :reference, required: true, placeholder: 'Payment Reference', class: 'form-control'
           .form-group
-            = p.date_field :at, value: Date.today, class: 'form-control'
+            = p.date_field :at, value: Date.today, required: true, class: 'form-control'
         '  
         button.btn.btn-primary.btn-flat type="submit" Submit
